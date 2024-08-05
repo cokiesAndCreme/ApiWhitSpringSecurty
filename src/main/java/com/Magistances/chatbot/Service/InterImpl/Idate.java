@@ -6,6 +6,7 @@ import com.Magistances.chatbot.Model.Entity.Dates;
 import java.util.List;
 
 public interface Idate {
+    //holaaa
     DatesDto createNewDate(DatesDto datesdto);
     DatesDto findById(Long id);
     void deteleById (Long id);
