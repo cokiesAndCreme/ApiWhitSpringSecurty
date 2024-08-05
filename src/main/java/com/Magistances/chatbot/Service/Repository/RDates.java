@@ -11,8 +11,9 @@ import java.util.List;
 
 @Repository
 public interface RDates extends JpaRepository <Dates,Long>{
-    //corregir problema con la query
-    List<Dates> findByidUser(Long userId);
+
+    @Query("SELECT u FROM Dates u WHERE u.user_fk.idUser = :id")
+    List<Dates> findDatesByUserId(@Param("id")Long id);
 //
 //    @Query("SELECT u FROM Dates WHERE users.phone_user")
 //    List<Dates>findbyphonenumber(@Param("phonenumber")String phonenumber);

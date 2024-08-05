@@ -2,9 +2,12 @@ package com.Magistances.chatbot.Service.Implemntation;
 
 
 import com.Magistances.chatbot.Model.Dtos.DatesDto;
+import com.Magistances.chatbot.Model.Dtos.UserDto;
 import com.Magistances.chatbot.Model.Entity.Dates;
+import com.Magistances.chatbot.Model.Entity.User;
 import com.Magistances.chatbot.Service.InterImpl.Idate;
 import com.Magistances.chatbot.Service.Repository.RDates;
+import com.Magistances.chatbot.Service.Repository.RUser;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class ImplementationDates implements Idate {
 
     private  final RDates rDates;
+    private final RUser rUser;
 
     @Override
     public DatesDto createNewDate(DatesDto datesdto) {
@@ -50,6 +54,17 @@ public class ImplementationDates implements Idate {
         return rDates.existsById(id);
     }
 
+    public User returnUserById(Long id){
+        return rUser.findById(id).orElseThrow();
+    }
+
+    public UserDto returnUserDto(User user){
+        return new UserDto(user.getIdUser(),
+                user.getNameUser(),
+                user.getPhoneUser(),
+                user.getDireccionUser());
+    }
+
     public DatesDto toDto(Dates dates){
         return new DatesDto(
                 dates.getIdDate(),
@@ -57,7 +72,8 @@ public class ImplementationDates implements Idate {
                 dates.getPaymentStatusDate(),
                 dates.getDayOfDate(),
                 dates.getHourOfDate(),
-                dates.getCreationDate());
+                dates.getCreationDate(),
+                dates.getUser_fk().getIdUser());
     }
 
     public Dates toEntity(DatesDto datesDto){
@@ -67,9 +83,10 @@ public class ImplementationDates implements Idate {
                 .idDate(datesDto.idDate())
                 .serviceDate(datesDto.serviceDate())
                 .paymentStatusDate(datesDto.paymentStatusDate())
-                .dayOfDate(datesDto.dayOfdate())
+                .dayOfDate(datesDto.dayOfDate())
                 .hourOfDate(datesDto.hourOfDate())
                 .creationDate(datesDto.creationDate())
+                .user_fk(returnUserById(datesDto.user_fk()))
                 .build();
 
     }

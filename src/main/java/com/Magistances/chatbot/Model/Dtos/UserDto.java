@@ -10,7 +10,7 @@ import lombok.Data;
 public record UserDto(
          Long idUser,
          @NotEmpty
-         @Size(min = 80, max = 120)
+         @Size(max = 120)
          String nameUser,
 
          @NotBlank

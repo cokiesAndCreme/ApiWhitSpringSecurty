@@ -4,6 +4,7 @@ import com.Magistances.chatbot.Coontroller.AviceController.Exepcions.isAlreadyEx
 import jakarta.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.ErrorResponseException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,10 +18,17 @@ public class ControllerAdvice {
         return ResponseEntity.badRequest().body(erros);
     }
 
+
     @ExceptionHandler(isAlreadyExist.class)
     public ResponseEntity isAlreadyExist(isAlreadyExist ex){
         var errosrs =  new isAlreadyExist("The User already exist");
         return ResponseEntity.badRequest().body(errosrs);
     }
 
+
+    private record getErrors(String error, String campo){
+        public getErrors(FieldError fieldError) {
+            this(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+    }
 }
