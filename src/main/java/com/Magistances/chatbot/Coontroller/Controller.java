@@ -60,9 +60,9 @@ public class Controller {
     }
 
     @GetMapping("getbyphonenumber")
-    public ResponseEntity<?> findByPhone(@RequestParam @NotBlank @Min(12) String string){
-         implementationUsers.findbyphonmuber(string);
-         return ResponseEntity.noContent().build();
+    public ResponseEntity<?> findByPhone(@RequestParam(name = "phone") @NotBlank @Min(12) String phone){
+         var users = implementationUsers.findbyphonmuber(phone);
+         return ResponseEntity.ok(users);
 
     }
 

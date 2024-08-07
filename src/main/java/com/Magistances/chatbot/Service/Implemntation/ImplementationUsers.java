@@ -47,9 +47,9 @@ public class ImplementationUsers implements Iuser {
     }
 
     @Override
-    public UserDto findbyphonmuber(String phonenumber) {
+    public List<UserDto> findbyphonmuber(String phonenumber) {
        var us =  rUser.findbyphonmuber(phonenumber);
-        return toDto(us);
+        return us.stream().map(this::toDto).toList();
     }
 
     public boolean ifExistById(Long id){

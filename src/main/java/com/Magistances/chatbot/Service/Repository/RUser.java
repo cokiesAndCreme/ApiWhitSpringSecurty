@@ -14,7 +14,7 @@ import java.util.List;
 public interface RUser extends JpaRepository<User,Long> {
 
     @Query("SELECT u FROM User u WHERE u.phoneUser LIKE %:phonenumber%")
-    User findbyphonmuber (@Param("phonenumber")String phonenumber);
+    List<User> findbyphonmuber (@Param("phonenumber")String phonenumber);
 
 
 }

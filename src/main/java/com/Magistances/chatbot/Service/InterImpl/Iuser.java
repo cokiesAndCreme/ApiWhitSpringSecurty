@@ -12,5 +12,5 @@ public interface Iuser {
     void deteleById(Long id);
     List<UserDto> findAll();
     UserDto upload(UserDto userdto);
-    UserDto findbyphonmuber(String phonenumber);
+    List<UserDto> findbyphonmuber(String phonenumber);
 }

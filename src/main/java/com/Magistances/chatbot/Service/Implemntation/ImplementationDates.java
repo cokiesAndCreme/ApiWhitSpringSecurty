@@ -1,7 +1,9 @@
 package com.Magistances.chatbot.Service.Implemntation;
 
 
+import com.Magistances.chatbot.Model.Dtos.DateDtoGetAll;
 import com.Magistances.chatbot.Model.Dtos.DatesDto;
+import com.Magistances.chatbot.Model.Dtos.DatesDtoFindByIdUser;
 import com.Magistances.chatbot.Model.Dtos.UserDto;
 import com.Magistances.chatbot.Model.Entity.Dates;
 import com.Magistances.chatbot.Model.Entity.User;
@@ -28,9 +30,9 @@ public class ImplementationDates implements Idate {
     }
 
     @Override
-    public DatesDto findById(Long id) {
+    public DateDtoGetAll findById(Long id) {
         val date = rDates.findById(id).orElse(null);
-        return toDto(date);
+        return toDatesGet(date);
     }
 
     @Override
@@ -39,15 +41,21 @@ public class ImplementationDates implements Idate {
     }
 
     @Override
-    public List<DatesDto> findAll() {
+    public List<DateDtoGetAll> findAll() {
         var dates= rDates.findAll();
-        return dates.stream().map(this::toDto).collect(Collectors.toList());
+        return dates.stream().map(this::toDatesGet).toList();
     }
 
     @Override
     public List<DatesDto> findByIdUser(Long id) {
         var dates = rDates.findById(id);
         return dates.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DatesDtoFindByIdUser> findDatesByUserId(Long id) {
+        var dates = rDates.findDatesByUserId(id);
+        return dates.stream().map(this::toFindDateByUserId).toList();
     }
 
     public boolean isAlreadyExist(Long id){
@@ -88,6 +96,24 @@ public class ImplementationDates implements Idate {
                 .creationDate(datesDto.creationDate())
                 .user_fk(returnUserById(datesDto.user_fk()))
                 .build();
+
+    }
+    public DateDtoGetAll toDatesGet(Dates dates){
+        return new DateDtoGetAll(
+                dates.getIdDate(),
+                dates.getServiceDate(),
+                dates.getPaymentStatusDate(),
+                dates.getDayOfDate(),
+                dates.getHourOfDate(),
+                dates.getCreationDate()
+                ,dates.getUser_fk());
+    }
+    public DatesDtoFindByIdUser toFindDateByUserId (Dates dates){
+        return new DatesDtoFindByIdUser(
+                dates.getServiceDate(),
+                dates.getPaymentStatusDate(),
+                dates.getDayOfDate(),
+                dates.getHourOfDate());
 
     }
 }
