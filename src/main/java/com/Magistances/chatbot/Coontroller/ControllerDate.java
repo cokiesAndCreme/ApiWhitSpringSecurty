@@ -17,38 +17,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("dates/")
+@RequestMapping("dates")
 @RequiredArgsConstructor
 public class ControllerDate {
 
     private final ImplementationDates implementationDates;
 
-    @GetMapping("getdates")
+    @GetMapping("/getdates")
     public ResponseEntity<List<DateDtoGetAll>> getAllDates(){
        List<DateDtoGetAll> dates = implementationDates.findAll();
        return   ResponseEntity.ok(dates);
     }
 
-    @PutMapping("modifydate")
+    @PutMapping("/modifydate")
     public ResponseEntity<?>modifyAppointment(@RequestBody @Valid DatesDto date){
          implementationDates.createNewDate(date);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("finddate/{id}")
+    @GetMapping("/finddate/{id}")
     public ResponseEntity<DateDtoGetAll>findDateById(@PathVariable Long id){
         if(!implementationDates.isAlreadyExist(id)) throw  new isAlreadyExist("the date does not exist");
         var date = implementationDates.findById(id);
         return ResponseEntity.ok(date);
     }
 
-    @PostMapping("createdate")
+    @PostMapping("/createdate")
     public ResponseEntity<?>createNewDate(@RequestBody DatesDto dates){
         implementationDates.createNewDate(dates);
         return ResponseEntity.created(URI.create("/createdate/" + dates.idDate())).build();
     }
 
-    @DeleteMapping("deletedate/{id}")
+    @DeleteMapping("/deletedate/{id}")
     public ResponseEntity<?>deleteById(@PathVariable Long id){
         if(implementationDates.isAlreadyExist(id)) throw new isAlreadyExist("the date does not exist");
         implementationDates.deteleById(id);
@@ -57,7 +57,7 @@ public class ControllerDate {
 
 
     //this work but have a error when you put a invalid id user, and return a empy array
-    @GetMapping("findByUserId/{id}")
+    @GetMapping("/findByUserId/{id}")
     public ResponseEntity<?>findByUserId(@PathVariable Long id ){
         var dates = implementationDates.findDatesByUserId(id);
         return ResponseEntity.ok(dates);
