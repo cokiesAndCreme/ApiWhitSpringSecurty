@@ -1,2 +1,2 @@
-# chatbotEz
-basic chatbot 
+# ApiForChatbot 
+basic api for chatbot  
